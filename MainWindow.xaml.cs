@@ -38,8 +38,8 @@ public partial class MainWindow : Window
             }
             else
             {
-                // User not found or password doesn't match
                 MessageBox.Show("Fel lösenord eller användarnamn, försök igen.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                txtLoginWarning.Visibility = Visibility.Visible;
             }
         }
     }

@@ -32,6 +32,22 @@ namespace GreenThumbHT23
                     MessageBox.Show("Användare finns redan, välj ett annat", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+                else if (username.Length < 4)
+                {
+                    MessageBox.Show("Minst 4 bokstäver för att kunna registrera användare.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else if (password.Length < 8)
+                {
+                    MessageBox.Show("Minst 8 bokstäver för att kunna registrera ett lösenord.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+                else if (gardenName.Length < 3)
+                {
+                    MessageBox.Show("Minst 3 bokstäver för att kunna tillhöra en garden.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
 
                 UserModel newUser = new UserModel
                 {

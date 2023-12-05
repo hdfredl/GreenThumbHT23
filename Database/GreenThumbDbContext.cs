@@ -67,7 +67,24 @@ public class GreenThumbDbContext : DbContext
 
 
 
-        // SEEDA DATA 
+        // SEEDA DATA - EXEMPEL. Jag har seedat 1-3 via SQL, 3-7 med AddPlantWindow, därav bara seedat 1 här som exempel. 
+        modelBuilder.Entity<PlantModel>().HasData(new PlantModel()
+        {
+            PlantId = 8,
+            PlantName = "Test Rose",
+            PlantDescription = "Test flower",
+
+        });
+
+
+        modelBuilder.Entity<InstructionModel>().HasData(new InstructionModel()
+        {
+            InstructionId = 8,
+            InstructionName = "pour water to plant",
+            InstructionDescription = " Pour water every 2nd minute",
+            PlantId = 8,
+        });
+
 
 
 

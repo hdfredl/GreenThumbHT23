@@ -63,7 +63,7 @@
  Margin="10"
  Background="MintCream"
  Foreground="Green"
- Content="Go to Details"
+ Content="Go to Details Window"
  FontWeight="Bold" 
  Click="btnDetailsWindow_Click"
  >
@@ -73,6 +73,25 @@
                 </Style>
             </Button.Resources>
         </Button>
+
+        <Button
+Name="btnDetailsAboutPlant"
+Grid.Column="6"
+Grid.Row="5"
+Margin="10"
+Background="MintCream"
+Foreground="Green"
+Content="Plant Detail"
+FontWeight="Bold" 
+Click="btnDetailaboutPlant_Click"
+>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
 
         <Button
  Name="btnAddPlantWindow"
@@ -129,7 +148,18 @@
             </Button.Resources>
         </Button>
 
-
+        <TextBlock
+Grid.Row="1"
+Grid.Column="2"
+            Grid.ColumnSpan="2"
+Text="Plants in your garden"
+Foreground="MintCream"
+VerticalAlignment="Center"
+HorizontalAlignment="Right"
+FontWeight="Bold"
+FontSize="16"
+Margin="10"
+/>
 
 
         <ListView

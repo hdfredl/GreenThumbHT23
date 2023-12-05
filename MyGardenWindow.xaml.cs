@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using GreenThumbHT23.Database;
 using GreenThumbHT23.Model;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenThumbHT23;
 
@@ -13,7 +15,7 @@ public partial class MyGardenWindow : Window
     public MyGardenWindow()
     {
         InitializeComponent();
-
+        LoadUserlants();
         // Displaya alla plants, garden o all info som behöves och meny till övriga delar i appen.
     }
 
@@ -60,14 +62,58 @@ public partial class MyGardenWindow : Window
     {
         using (var uow = new GreenUOW(new GreenThumbDbContext()))
         {
-            List<PlantModel> userPlants;
 
-            lstPurchasedList.Items.Clear();
+            if (OtherStatics.CurrentUser != null)// hämtar från UOW klassen, anvädes i Tomteverkstad
+            {
+                List<PlantModel> userPlants = uow.UserPlantsInDB(OtherStatics.CurrentUser.UserId); // lägger in user id som är en Int
 
+                lstPurchasedList.Items.Clear();
 
+                foreach (var plant in userPlants)
+                {
+                    ListViewItem plantToList = new();
+                    plantToList.Tag = plant;
+                    plantToList.Content = $"{plant.PlantName} och {plant.PlantDescription} ";
 
+                    lstPurchasedList.Items.Add(plantToList);
+                }
+            }
         }
     }
 
+    private void btnDetailaboutPlant_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (lstPurchasedList.SelectedItem != null)
+            {
+                ListViewItem selectedItem = (ListViewItem)lstPurchasedList.SelectedItem;
 
+                PlantModel selectedPlant = (PlantModel)selectedItem.Tag; // Tagar plant
+
+                using (GreenThumbDbContext context = new()) // Databasen
+                {
+                    var plantDetails = context.Plants.Include(plant => plant.Instructions).FirstOrDefault(p => p.PlantId == selectedPlant.PlantId);
+
+                    if (plantDetails != null)
+                    {
+                        string plantDetailsInfo = $"Plantan kallas: {plantDetails.PlantName} \nBeskrivning av plantan: {plantDetails.PlantDescription} - Instruktioner om hur man tar hand om plantan:  "; // Displayar plant
+
+                        foreach (var instruction in plantDetails.Instructions) // går igenom deras instructions
+                        {
+                            plantDetailsInfo += $"{instruction.InstructionName} - {instruction.InstructionDescription}"; // displayar instrucktionen och beskrivning av hur man gör
+                        }
+
+                        MessageBox.Show(plantDetailsInfo, "Plant Details", MessageBoxButton.OK); // Printar hela stringen.
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+
+
+    }
 }

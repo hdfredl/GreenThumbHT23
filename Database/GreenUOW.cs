@@ -1,4 +1,6 @@
-﻿namespace GreenThumbHT23.Database;
+﻿using GreenThumbHT23.Model;
+
+namespace GreenThumbHT23.Database;
 
 public class GreenUOW : IDisposable
 {
@@ -29,6 +31,13 @@ public class GreenUOW : IDisposable
         UserRepository = new(context);
         GardenConnectionRepository = new(context);
     }
+
+    public List<PlantModel> UserPlantsInDB(int userId)
+    {
+        return _context.GardenConnections.Where(gc => gc.Garden.Users.UserId == userId).Select(gc => gc.Plant).ToList();
+        //   Kollar i GardenConnections. Kollar om det finns någon förbindelse mellan Garden och om den garden har en user.     Sen selectar vi alla Plants.      
+    }
+
 
     public void Complete()
     {

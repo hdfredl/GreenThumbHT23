@@ -27,28 +27,32 @@ public partial class AddPlantWindow : Window
 
         if (string.IsNullOrWhiteSpace(plantName) || string.IsNullOrWhiteSpace(descPlant))
         {
-            MessageBox.Show("Lägg till ett namn och beskrivning! ");
+            MessageBox.Show("Lägg till ett namn och beskrivning! ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
-
+        else if (instructions.Length < 3 && instrctionsDesc.Length < 3)
+        {
+            MessageBox.Show("Lägg till instruktioner och beskrivning av plantan ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
 
         if (await PlantexistsAsync(plantName)) // om plantan redan finns 
         {
-            MessageBox.Show("Plantan finns redan, välj ett annat namn.");
+            MessageBox.Show("Plantan finns redan, välj ett annat namn.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
 
-        PlantModel newPlant = new PlantModel
+        PlantModel newPlant = new PlantModel // lägger till en planta
         {
             PlantName = plantName,
             PlantDescription = descPlant
 
         };
 
-        InstructionModel newInstruction = new InstructionModel // ?? == eller.
+        InstructionModel newInstruction = new InstructionModel // ?? == eller. // lägger till en instructions
         {
-            InstructionName = instructions ?? "Bevattningsteknik ",
-            InstructionDescription = instrctionsDesc ?? "Vattna varje 5e minut"
+            InstructionName = instructions,
+            InstructionDescription = instrctionsDesc
         };
 
         newPlant.Instructions.Add(newInstruction);
@@ -197,24 +201,20 @@ public partial class AddPlantWindow : Window
                     try
                     {
                         GardenModel? userGarden = await uow.GardenRepository.GetByIdAsync(OtherStatics.CurrentUser.UserId); // Hämtar användarens UserId och kollar vems garden som är inloggad
+                        int quantity;
 
-                        if (userGarden == null) // Om användaren inte har valt ett garden name vid register, så får den ett random namn
+                        if (int.TryParse(txtPlantQuantity.Text, out quantity))
                         {
-                            userGarden = new GardenModel
-                            {
-                                GardenName = $"Budget garden 1.0 - {OtherStatics.CurrentUser.UserId}"
-                            };
-                            await uow.GardenRepository.AddGardenAsync(userGarden); // SKapar en ny garden till den existerande usern.
+                            MessageBox.Show("Ange antal plants du vill ha till garden", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
                         }
-
-
                         foreach (var selectedPlant in selectedPlants) // lägger till den valda plant till userns garden. Från selectedPlants - lstInCart
                         {
                             GardenConnection connection = new GardenConnection
                             {
-                                GardenId = userGarden.GardenId,
-                                PlantId = selectedPlant.PlantId,
-                                Quantity = 1 // Har bara lagt till en åt gången, kanske lägger till hur många man får möjlighet till att add. Hade denna i tomteverkstad
+                                GardenId = userGarden!.GardenId,
+                                PlantId = selectedPlant.PlantId, // Hämtar från listviewen, lstItemsInCart. Vet ej hur man kan lägga till direkt till garden, så fick bli en mellanhand här. 
+                                Quantity = quantity // Har bara lagt till en åt gången, kanske lägger till hur många man får möjlighet till att add. Hade denna i tomteverkstad
                             };
 
                             await uow.GardenConnectionRepository.AddGardenConAsync(connection);
@@ -245,6 +245,8 @@ public partial class AddPlantWindow : Window
 
         if (selectedItem != null)
         {
+            lstItemList.Items.Remove(selectedItem);
+
             // Lägger till här i denna listan, endast till listan. Sparar ej den än till databasen för att hämtas ut senare. Gjorde samma i Tomteverkstad
             lstItemsInCart.Items.Add(selectedItem);
         }

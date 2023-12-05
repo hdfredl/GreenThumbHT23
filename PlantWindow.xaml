@@ -79,7 +79,7 @@ Click="btnSearch_Click"
 
         <Button
 Name="btnToAddPlant"
-Grid.Column="4"
+Grid.Column="6"
 Grid.Row="7"
 Margin="10"
 Background="MintCream"
@@ -94,6 +94,43 @@ Click="btnToAddPlant_Click"
                 </Style>
             </Button.Resources>
         </Button>
+
+        <Button
+Name="btnDetails"
+Grid.Column="3"
+Grid.Row="7"
+Margin="10"
+Background="MintCream"
+Foreground="Green"
+Content="Details about plant"
+FontWeight="Bold" 
+Click="btnDetailsAboutPlant_Click"
+>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button
+Name="btnDeletePlant"
+Grid.Column="4"
+Grid.Row="7"
+Margin="10"
+Background="MintCream"
+Foreground="Green"
+Content="Delete Plant"
+FontWeight="Bold" 
+Click="btnDeltePlant_Click"
+>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
 
 
         <TextBlock
