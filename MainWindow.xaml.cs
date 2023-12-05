@@ -1,24 +1,54 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using GreenThumbHT23.Database;
+using GreenThumbHT23.Model;
 
-namespace GreenThumbHT23
+namespace GreenThumbHT23;
+
+/// <summary>
+/// Interaction logic for MainWindow.xaml
+/// </summary>
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        public MainWindow()
+        InitializeComponent();
+
+
+    }
+
+    private async void btnLogIn_Click(object sender, RoutedEventArgs e)
+    {
+        string username = txtUsername.Text;
+        string password = txtPassword.Password;
+
+        using (var uow = new GreenUOW(new GreenThumbDbContext()))
         {
-            InitializeComponent();
+            UserModel? user = await uow.UserRepository.GetByUsernameAsync(username); // Hämtar från Usermodel/DB och checkar om username finns samt om lösenord stämmer
+
+            if (user != null && user.Password == password)
+            {
+                OtherStatics.CurrentUser = user; // kollar den lokala userns inloggning 
+
+                MessageBox.Show("Login Successful!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                MyGardenWindow myGardenWindow = new MyGardenWindow();
+                myGardenWindow.Show();
+                Close();
+
+            }
+            else
+            {
+                // User not found or password doesn't match
+                MessageBox.Show("Fel lösenord eller användarnamn, försök igen.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
+    }
+
+    private void btnRegister_Click(object sender, RoutedEventArgs e)
+    {
+        RegisterWindow registerWindow = new RegisterWindow();
+        registerWindow.Show();
+        Close();
+
     }
 }

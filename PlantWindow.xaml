@@ -1,0 +1,159 @@
+﻿<Window x:Class="GreenThumbHT23.PlantWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GreenThumbHT23"
+        mc:Ignorable="d"
+           Title="PlantWindow" Height="500" Width="1000" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Green"/>
+                <GradientStop Color="MintCream" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+
+ 
+
+
+
+        <Button
+ Name="btnSignOut"
+ Grid.Column="6"
+ Grid.Row="1"
+ Margin="10"
+ Background="MintCream"
+ Foreground="Green"
+ Content="Go back"
+ FontWeight="Bold" 
+ Click="btnSignout_Click"
+ >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button
+Name="btnSearch"
+Grid.Column="2"
+Grid.Row="7"
+Margin="10"
+Background="MintCream"
+Foreground="Green"
+Content="Search"
+FontWeight="Bold" 
+Click="btnSearch_Click"
+>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button
+Name="btnToAddPlant"
+Grid.Column="4"
+Grid.Row="7"
+Margin="10"
+Background="MintCream"
+Foreground="Green"
+Content="To Add Plant Menu"
+FontWeight="Bold" 
+Click="btnToAddPlant_Click"
+>
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+
+        <TextBlock
+        Grid.Row="2"
+        Grid.Column="1"
+        Text="Search"
+        Foreground="DarkOliveGreen"
+        VerticalAlignment="Center"
+        HorizontalAlignment="Right"
+        FontWeight="Bold"
+        FontSize="16"
+        Margin="10"
+        />
+
+        <TextBlock
+ Grid.Row="4"
+ Grid.Column="1"
+ Text="Description"
+ Foreground="DarkOliveGreen"
+ VerticalAlignment="Center"
+ HorizontalAlignment="Right"
+ FontWeight="Bold"
+ FontSize="16"
+ Margin="10"
+ />
+
+        <TextBox
+Name="txtSearchName"
+Grid.Row="2"
+Grid.Column="2"
+Height="20"
+VerticalContentAlignment="Center"
+FontWeight="Bold"
+Background="MintCream"
+Margin="10 0" TextChanged="txtSearchName_TextChanged"
+/>
+
+
+        <TextBox
+Name="txtDesc"
+Grid.Row="4"
+Grid.Column="2"
+Height="20"
+VerticalContentAlignment="Center"
+FontWeight="Bold"
+Background="MintCream"
+Margin="10 0"
+/>
+
+
+        <ListView
+  Name="lstItemList"
+  Grid.Row="2"
+  Grid.RowSpan="4"
+  Grid.Column="3"
+  Grid.ColumnSpan="3"
+        Background="MintCream"
+  />
+
+
+
+    </Grid>
+</Window>

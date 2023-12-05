@@ -5,9 +5,140 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GreenThumbHT23"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="SignInWindow" Height="500" Width="1000" WindowStartupLocation="CenterScreen">
     <Grid>
-        
-        
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Green"/>
+                <GradientStop Color="MintCream" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+
+        <Button
+       Name="btnLogIn"
+       Grid.Column="2"
+       Grid.Row="7"
+       Margin="10"
+       Background="MintCream"
+       Foreground="Green"
+       Content="Log In"
+       FontWeight="Bold" 
+       Click="btnLogIn_Click"
+       >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Button
+      Name="btnRegister"
+      Grid.Column="5"
+      Grid.Row="7"
+      Margin="10"
+      Background="MintCream"
+      Foreground="Green"
+      Content="Register"
+      FontWeight="Bold" 
+      Click="btnRegister_Click"
+      >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+
+
+
+        <TextBlock
+            Grid.Row="2"
+            Grid.Column="2"
+            Text="Username"
+            Foreground="MintCream"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Right"
+            FontWeight="Bold"
+            FontSize="16"
+            Margin="10"
+            />
+        <TextBlock
+     Grid.Row="3"
+     Grid.Column="2"
+            
+     Text="Password"
+     Foreground="MintCream"
+     VerticalAlignment="Center"
+     HorizontalAlignment="Right"
+     FontWeight="Bold"
+     FontSize="16"
+     Margin="10"
+     />
+
+        <TextBox
+    Name="txtUsername"
+    Grid.Row="2"
+    Grid.Column="3"
+            Grid.ColumnSpan="2"
+    Height="20"
+    VerticalContentAlignment="Center"
+    FontWeight="Bold"
+    Background="MintCream"
+    Margin="10 0"
+    />
+
+        <PasswordBox
+    Name="txtPassword"
+    Grid.Row="3"
+    Grid.Column="3"
+            Grid.ColumnSpan="2"
+    Height="20"
+    VerticalContentAlignment="Center"
+    FontWeight="Bold"
+    Background="MintCream"
+    Margin="10 0"
+    />
+
+        <TextBlock
+      Name="txtLoginWarning"
+      Grid.Row="7"
+      Grid.Column="3"
+      Grid.ColumnSpan="2"
+      Text="Wrong username or password!"
+      Margin="10,0"
+      FontWeight="Bold"
+      FontSize="12"
+      VerticalAlignment="Top"
+      HorizontalAlignment="Center"
+      Foreground="Crimson"
+      
+      />
+
+
     </Grid>
 </Window>

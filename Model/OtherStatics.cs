@@ -2,4 +2,5 @@
 
 public class OtherStatics
 {
+    public static UserModel? CurrentUser { get; set; }
 }
