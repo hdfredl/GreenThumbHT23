@@ -143,9 +143,52 @@ public partial class AddPlantWindow : Window
         }
     }
 
-    private void btnUpdate_Click(object sender, RoutedEventArgs e)
+    private async void btnUpdate_Click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show("Under development ");
+        if (lstItemList.SelectedItem != null)
+        {
+            PlantModel updatingPlant = (PlantModel)((ListViewItem)lstItemList.SelectedItem).Tag;
+
+            string updatePlantName = txtPlantName.Text;
+            string updatePlantDesc = txtDesc.Text;
+            string updatePlantInstructions = txtInstructions.Text;
+            string updatePlantDescInstrcDesc = txtInstructionsDesc.Text;
+
+            using (var uow = new GreenUOW(new GreenThumbDbContext()))
+            {
+                try
+                {
+                    PlantModel? existingPlant = await uow.PlantRepository.GetByIdAsync(updatingPlant.PlantId); // Hämta 
+
+                    if (existingPlant != null)
+                    {
+                        existingPlant.PlantName = updatePlantName;
+                        existingPlant.PlantDescription = updatePlantDesc;
+
+                        InstructionModel? existingInstructions = existingPlant.Instructions.FirstOrDefault(); // kopplar in Instruction klassen
+
+                        if (existingInstructions != null)
+                        {
+                            existingInstructions.InstructionName = updatePlantInstructions; // uppdatererar
+                            existingInstructions.InstructionDescription = updatePlantDescInstrcDesc;
+                        }
+
+                        uow.Complete();
+                        MessageBox.Show("Plantan har blivit uppdaterad");
+                        LoadList();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Ingen planta har blivit uppdaterd.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Errorn: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
     }
 
     private async void btnNeutral_Click(object sender, RoutedEventArgs e) // Delete 
