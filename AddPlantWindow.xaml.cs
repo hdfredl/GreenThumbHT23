@@ -257,7 +257,7 @@ public partial class AddPlantWindow : Window
                             {
                                 GardenId = userGarden!.GardenId,
                                 PlantId = selectedPlant.PlantId, // Hämtar från listviewen, lstItemsInCart. Vet ej hur man kan lägga till direkt till garden, så fick bli en mellanhand här. 
-                                Quantity = quantity // Har bara lagt till en åt gången, kanske lägger till hur många man får möjlighet till att add. Hade denna i tomteverkstad
+                                Quantity = quantity //  Hade denna i tomteverkstad
                             };
 
                             await uow.GardenConnectionRepository.AddGardenConAsync(connection);
