@@ -81,6 +81,7 @@ public partial class AddPlantWindow : Window
                 txtInstructions.Text = "";
                 txtInstructionsDesc.Text = "";
                 lstInstructionList.Items.Clear();
+                txtPlantQuantity.Text = "";
             }
             catch (Exception ex)
             {
