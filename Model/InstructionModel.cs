@@ -15,4 +15,9 @@ public class InstructionModel
 
     public PlantModel Plant { get; set; } // Flera instructions kan ha en plant 
 
+
+    public override string ToString()
+    {
+        return $"{InstructionName} - {InstructionDescription}";
+    }
 }

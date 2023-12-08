@@ -243,7 +243,7 @@ Margin="10"
 />
 
         <TextBlock
-Grid.Row="6"
+Grid.Row="8"
 Grid.Column="1"
 Text="Quantity of plants"
 Foreground="DarkOliveGreen"
@@ -312,7 +312,7 @@ Margin="10 0"
 
         <TextBox
 Name="txtPlantQuantity"
-Grid.Row="6"
+Grid.Row="8"
 Grid.Column="2"
 Height="20"
 VerticalContentAlignment="Center"
@@ -328,7 +328,7 @@ Margin="10 0"
   Grid.Column="3"
   Grid.ColumnSpan="2"
             Margin="0  0 5 0"
-        Background="MintCream"
+        Background="MintCream" SelectionChanged="lstItemList_SelectionChanged"
   />
 
         <ListView
@@ -343,18 +343,18 @@ Grid.ColumnSpan="2"
 
         <ListView
   Name="lstInstructionList"
-  Grid.Row="7"
-  Grid.RowSpan="1"
+  Grid.Row="6"
+  Grid.RowSpan="2"
   Grid.Column="2"
   Grid.ColumnSpan="1"
             Margin="5"
-        Background="MintCream"
+        Background="MintCream" SelectionChanged="lstInstructionList_SelectionChanged"
   />
 
         <Button
  Name="btnAddInstructions"
  Grid.Column="1"
- Grid.Row="8"
+ Grid.Row="6"
  Margin="10"
  Background="MintCream"
  Foreground="Green"

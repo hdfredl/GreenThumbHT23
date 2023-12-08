@@ -22,19 +22,19 @@ public partial class AddPlantWindow : Window
     {
         string plantName = txtPlantName.Text;
         string descPlant = txtDesc.Text;
-        string instructions = txtInstructions.Text;
-        string instrctionsDesc = txtInstructionsDesc.Text;
+        //string instructions = txtInstructions.Text;
+        //string instrctionsDesc = txtInstructionsDesc.Text;
 
         if (string.IsNullOrWhiteSpace(plantName) || string.IsNullOrWhiteSpace(descPlant))
         {
             MessageBox.Show("Lägg till ett namn och beskrivning! ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
-        else if (instructions.Length < 3 && instrctionsDesc.Length < 3)
-        {
-            MessageBox.Show("Lägg till instruktioner och beskrivning av plantan ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            return;
-        }
+        //else if (instructions.Length < 3 && instrctionsDesc.Length < 3)
+        //{
+        //    MessageBox.Show("Lägg till instruktioner och beskrivning av plantan ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        //    return;
+        //}
 
         if (await PlantexistsAsync(plantName)) // om plantan redan finns 
         {
@@ -49,19 +49,27 @@ public partial class AddPlantWindow : Window
 
         };
 
-        InstructionModel newInstruction = new InstructionModel // ?? == eller. // lägger till en instructions
-        {
-            InstructionName = instructions,
-            InstructionDescription = instrctionsDesc
-        };
+        //InstructionModel newInstruction = new InstructionModel // ?? == eller. // lägger till en instructions
+        //{
+        //    InstructionName = instructions,
+        //    InstructionDescription = instrctionsDesc
+        //};
 
-        newPlant.Instructions.Add(newInstruction);
+        //newPlant.Instructions.Add(newInstruction);
 
         using (var unitOfWork = new GreenUOW(new GreenThumbDbContext()))
         {
             try
             {
-                //await unitOfWork.PlantRepository.AddPlantAsync(newPlant);
+
+                foreach (var item in lstInstructionList.Items)
+                {
+                    if (item is InstructionModel instruction)
+                    {
+                        newPlant.Instructions.Add(instruction);
+                    }
+                }
+
                 await unitOfWork.PlantRepository.AddPlantAsync(newPlant);
                 unitOfWork?.Complete();
 
@@ -72,7 +80,7 @@ public partial class AddPlantWindow : Window
                 txtDesc.Text = "";
                 txtInstructions.Text = "";
                 txtInstructionsDesc.Text = "";
-
+                lstInstructionList.Items.Clear();
             }
             catch (Exception ex)
             {
@@ -81,6 +89,29 @@ public partial class AddPlantWindow : Window
 
         }
     }
+
+    private void btnAddInstructions_Click(object sender, RoutedEventArgs e)
+    {
+        // Gör logik så att man kan addera flera instructions till en planta.
+        string instructions = txtInstructions.Text;
+        string instrctionsDesc = txtInstructionsDesc.Text;
+
+        if (instructions.Length < 3 && instrctionsDesc.Length < 3)
+        {
+            MessageBox.Show("Lägg till instruktioner och beskrivning av plantan ", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+        InstructionModel newInstruction = new InstructionModel // ?? == eller. // lägger till en instructions
+        {
+            InstructionName = instructions,
+            InstructionDescription = instrctionsDesc
+        };
+
+        lstInstructionList.Items.Add(newInstruction);
+
+
+    }
+
 
     private void LoadList()
     {
@@ -125,14 +156,14 @@ public partial class AddPlantWindow : Window
 
                     if (plantDetails != null)
                     {
-                        string plantDetailsInfo = $"Planta: {plantDetails.PlantName}\nDescription: {plantDetails.PlantDescription} - Instruktioner: "; // Displayar plant
+                        string plantDetailsInfo = $"Planta: {plantDetails.PlantName}\n" + $"Description: {plantDetails.PlantDescription} -\n" + "Instruktioner: "; // Displayar plant med brytning
 
                         foreach (var instruction in plantDetails.Instructions) // går igenom deras instructions
                         {
-                            plantDetailsInfo += $"{instruction.InstructionName} - {instruction.InstructionDescription}";
+                            plantDetailsInfo += $"{instruction.InstructionName} - {instruction.InstructionDescription}\n";
                         }
 
-                        MessageBox.Show(plantDetailsInfo, "Plant Details", MessageBoxButton.OK);
+                        MessageBox.Show(plantDetailsInfo, "Plant Details", MessageBoxButton.OK); // Printar ut plantDetailsInfo som sparats
                     }
                 }
             }
@@ -239,6 +270,13 @@ public partial class AddPlantWindow : Window
             {
                 List<PlantModel> selectedPlants = lstItemsInCart.Items.Cast<ListViewItem>().Select(plantInList => (PlantModel)plantInList.Tag).ToList();
 
+                if (lstItemsInCart.Items.Count == 0)
+                {
+                    MessageBox.Show("Din cart är tom, addera en planta först.", "Tom vagn", MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+
                 using (var uow = new GreenUOW(new GreenThumbDbContext()))
                 {
                     try
@@ -295,8 +333,41 @@ public partial class AddPlantWindow : Window
         }
     }
 
-    private void btnAddInstructions_Click(object sender, RoutedEventArgs e)
+    private void btnDeleteFromCart_Click(object sender, RoutedEventArgs e)
+    {
+
+        ListViewItem selectedItem = (ListViewItem)lstItemsInCart.SelectedItem;
+        if (selectedItem != null)
+        {
+            lstItemsInCart.Items.Remove(selectedItem);
+        }
+
+    }
+
+    private void lstInstructionList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        lstInstructionList.Items.Clear();
+        // lstItemList
+        ListViewItem selectedItem = (ListViewItem)lstItemList.SelectedItem;
+
+        if (selectedItem != null)
+        {
+            PlantModel selectedPlant = (PlantModel)selectedItem.Tag;
+
+            List<InstructionModel> instructions = selectedPlant.Instructions; // instruktioner
+
+            foreach (var instruction in instructions)
+            {
+
+                lstInstructionList.Items.Add(instruction);
+
+            }
+        }
+    }
+
+    private void lstItemList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
 
     }
 }
+
