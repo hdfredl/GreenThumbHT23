@@ -37,6 +37,7 @@ public partial class PlantWindow : Window
                 var searchResults = await unitOfWork.PlantRepository.SearchPlantsAsync(searchAndFind, Description); // lägg in variablen
 
                 LoadaPlantsSearched(searchResults);
+
             }
             catch (Exception ex)
             {
@@ -55,6 +56,7 @@ public partial class PlantWindow : Window
 
             ListViewItem plantItem = new ListViewItem
             {
+                Tag = plant,
                 Content = $"{plant.PlantName} - {plant.PlantDescription}"
             };
 
@@ -110,45 +112,52 @@ public partial class PlantWindow : Window
         {
             MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
     }
 
 
     private void btnDetailsAboutPlant_Click(object sender, RoutedEventArgs e)
     {
-        try
+        //try
+        //{
+        if (lstItemList.SelectedItem != null)
         {
-            if (lstItemList.SelectedItem != null)
+            ListViewItem selectedItem = (ListViewItem)lstItemList.SelectedItem;
+
+            PlantModel selectedPlant = (PlantModel)selectedItem.Tag; // Tagar plant
+
+            using (GreenThumbDbContext context = new()) // Databasen
             {
-                ListViewItem selectedItem = (ListViewItem)lstItemList.SelectedItem;
+                var plantDetails = context.Plants.Include(plant => plant.Instructions).FirstOrDefault(p => p.PlantId == selectedPlant.PlantId);
 
-                PlantModel selectedPlant = (PlantModel)selectedItem.Tag; // Tagar plant
-
-                using (GreenThumbDbContext context = new()) // Databasen
+                if (plantDetails != null)
                 {
-                    var plantDetails = context.Plants.Include(plant => plant.Instructions).FirstOrDefault(p => p.PlantId == selectedPlant.PlantId);
+                    string plantDetailsInfo = $"Plantan kallas: {plantDetails.PlantName} \nBeskrivning av plantan: {plantDetails.PlantDescription} - Instruktioner om hur man tar hand om plantan:  "; // Displayar plant
 
-                    if (plantDetails != null)
+                    if (plantDetails.Instructions != null)
                     {
-                        string plantDetailsInfo = $"Plantan kallas: {plantDetails.PlantName} \nBeskrivning av plantan: {plantDetails.PlantDescription} - Instruktioner om hur man tar hand om plantan:  "; // Displayar plant
-
-                        foreach (var instruction in plantDetails.Instructions) // går igenom deras instructions
+                        foreach (var instruction in plantDetails.Instructions)
                         {
-                            plantDetailsInfo += $"{instruction.InstructionName} - {instruction.InstructionDescription}"; // displayar instrucktionen och beskrivning av hur man gör
+                            plantDetailsInfo += $"{instruction.InstructionName} - {instruction.InstructionDescription}";
                         }
-
-                        MessageBox.Show(plantDetailsInfo, "Plant Details", MessageBoxButton.OK); // Printar hela stringen.
                     }
+                    else
+                    {
+                        plantDetailsInfo += "Inga instruktioner tillgängliga.";
+                    }
+
+                    MessageBox.Show(plantDetailsInfo, "Plant Details", MessageBoxButton.OK);
+                }
+                else
+                {
+                    MessageBox.Show("Kunde inte hitta detaljer för plantan.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message);
-        }
-
-
     }
+    //catch (Exception ex)
+    //{
+    //    MessageBox.Show(ex.Message);
+    //}
 
 
     private void LoadList()

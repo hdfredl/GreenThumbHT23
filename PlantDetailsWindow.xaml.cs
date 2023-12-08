@@ -9,7 +9,7 @@ namespace GreenThumbHT23
     {
         public PlantDetailsWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); // Nice to have, avvakta
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)

@@ -7,6 +7,8 @@ public class KeyManager
 {
     public static string GetEncryptionKey()
     {
+        string keyLocation = Path.Combine(Directory.GetCurrentDirectory(), "Green.txt");
+
         if (File.Exists("C:\\Users\\fhdlu\\Desktop\\Green.txt"))
         {
             return File.ReadAllText("C:\\Users\\fhdlu\\Desktop\\Green.txt"); // EN FIL SOM ÄR SKAPAD MÅSTE ANVÄNDAS OM IGEN, BYT EJ LÖSENORDED DÄR INNE. 

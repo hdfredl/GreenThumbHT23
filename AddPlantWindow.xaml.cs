@@ -294,4 +294,9 @@ public partial class AddPlantWindow : Window
             lstItemsInCart.Items.Add(selectedItem);
         }
     }
+
+    private void btnAddInstructions_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }
