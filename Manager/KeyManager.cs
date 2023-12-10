@@ -25,7 +25,7 @@ public class KeyManager
     public static string GenerateEncryptionKey()
     {
         var rng = new RNGCryptoServiceProvider();
-        var byteArray = new byte[16]; // Genererar ett krypterat lösenord på 16 bokstäver. 
+        var byteArray = new byte[16]; // Genererar ett krypterat lösenord på 16 bokstäver.  
         rng.GetBytes(byteArray);
         return Convert.ToBase64String(byteArray);
     }
